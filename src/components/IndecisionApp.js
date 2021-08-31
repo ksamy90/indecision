@@ -1,9 +1,9 @@
 import React from "react";
-import AddOption from "./AddOption";
+// import AddOption from "./AddOption";
 import Action from "./Action";
 import Header from "./Header";
-import Options from "./Options";
-import OptionModal from "./OptionModal";
+// import Options from "./Options";
+// import OptionModal from "./OptionModal";
 
 class TodoApp extends React.Component {
   constructor(props) {
@@ -60,10 +60,38 @@ class TodoApp extends React.Component {
       };
     });
   }
+
+  componentDidMount() {
+    try {
+      const fetchTodos = localStorage.getItem("options");
+      const todoItems = JSON.parse(fetchTodos);
+      if (todoItems) {
+        this.setState(() => {
+          return {
+            options: todoItems,
+          };
+        });
+      }
+    } catch (e) {}
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.options.length !== this.state.options.length) {
+      const todoItems = JSON.stringify(this.state.options);
+      localStorage.setItem("options", todoItems);
+    }
+  }
   render() {
+    const title = "TodoApp React";
+    const subtitle = "awesome react todos";
     return (
       <div>
-        <h1>Awesome!!</h1>
+        <Header title={title} subtitle={subtitle} />
+        <div className="container">
+          <Action
+            hasOptions={this.state.options.length > 0}
+            pickOption={this.handlePick}
+          />
+        </div>
       </div>
     );
   }
