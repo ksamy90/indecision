@@ -1,8 +1,8 @@
 import React from "react";
-// import AddOption from "./AddOption";
+import AddOption from "./AddOption";
 import Action from "./Action";
 import Header from "./Header";
-// import Options from "./Options";
+import Options from "./Options";
 // import OptionModal from "./OptionModal";
 
 class TodoApp extends React.Component {
@@ -87,10 +87,18 @@ class TodoApp extends React.Component {
       <div>
         <Header title={title} subtitle={subtitle} />
         <div className="container">
+          <Options
+            options={this.state.options}
+            handleDeleteOptions={this.handleRemoveAll}
+            handleDeleteItem={this.handleRemoveOption}
+          />
           <Action
             hasOptions={this.state.options.length > 0}
             pickOption={this.handlePick}
           />
+          <div className="widget">
+            <AddOption addOption={this.handleAddOption} />
+          </div>
         </div>
       </div>
     );
